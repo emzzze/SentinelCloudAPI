@@ -4,3 +4,7 @@ __pycache__/
 github_key_expMarch30.txt
 *.txt
 github_key_expMarch30.txt
+*.pyc
+.DS_Store
+*.txt
+users.json

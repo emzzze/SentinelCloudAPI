@@ -1,0 +1,11 @@
+nano .dockerignore
+```
+```
+venv/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+.env
+users.json
+*.md

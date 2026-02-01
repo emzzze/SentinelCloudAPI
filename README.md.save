@@ -1,0 +1,12 @@
+# SentinelCloud-API 
+
+A lightweight, modular backend service built with **Python (FastAPI)** designed to monitor system health and audit security configurations in real-time.
+
+##  Features
+- **Backend Services:** Designed with Python for high performance and readability.
+- **Infrastructure Auditing:** Built-in logic to verify OS security and system reliability.
+- **Clean Code:** Follows modular OOP (Object-Oriented Programming) principles.
+- **Auto-Documentation:** Built-in Swagger UI (FastAPI) for API testing.
+
+##  Architecture
+The service is structured to separate business logic (Auditor
