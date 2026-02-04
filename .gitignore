@@ -1,10 +1,6 @@
 venv/
-.env
 __pycache__/
-github_key_expMarch30.txt
-*.txt
-github_key_expMarch30.txt
 *.pyc
+.env
 .DS_Store
-*.txt
-users.json
+*.save

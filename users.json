@@ -1,0 +1,8 @@
+{
+  "admin": {
+    "username": "admin",
+    "hashed_password": "$2b$12$B8qfN7r56ynkFldHNZTYFOFXF8JDwwcbk8O6xKMR.k9X/kiFLuBkS",
+    "role": "superuser",
+    "created_at": "2026-01-31T20:23:58.408487"
+  }
+}
