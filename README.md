@@ -52,19 +52,19 @@ Sentinel Cloud API is a modular Python-based security system combining AES-256 e
 
 ## Features
 
-### 🔐 **Sentinel-Vault (Encryption Module)**
+###  **Sentinel-Vault (Encryption Module)**
 - **AES-256 symmetric encryption** using Fernet
 - Secure credential storage for API keys, passwords, database credentials
 - Master key-based access control
 - Industry-standard cryptography (`cryptography` library by pyca)
 
-### 🛡️ **Shadow-Gate (Authentication Module)**
+###  **Shadow-Gate (Authentication Module)**
 - **JWT (JSON Web Tokens)** for stateless authentication
 - **bcrypt password hashing** (never store plain-text passwords)
 - Token expiration and validation
 - Role-based access control ready
 
-### 📊 **Infrastructure Auditor**
+###  **Infrastructure Auditor**
 - System health monitoring
 - Security compliance checks
 - Real-time infrastructure status reporting
@@ -232,39 +232,39 @@ SentinelCloudAPI/
 - [x] Basic API Infrastructure with FastAPI
 - [x] Environment-based Secret Management
 
-### 🔄 Phase 2: Authentication & Access Control (In Progress)
-- [ ] User Registration & Login Endpoints
-- [ ] User Storage (JSON → SQLite → PostgreSQL migration path)
-- [ ] JWT Route Protection Middleware
-- [ ] Role-Based Access Control (RBAC)
-- [ ] API Key Management System
+### ✅ Phase 2: Authentication & Access Control 
+- [x] User Registration & Login Endpoints
+- [x] User Storage (JSON → SQLite → PostgreSQL migration path)
+- [x] JWT Route Protection Middleware
+- [x] Role-Based Access Control (RBAC)
+- [x] API Key Management System
 
-### 📋 Phase 3: Cloud Integration
+### ✅ Phase 3: Cloud Integration (In Progress)
 - [ ] AWS Boto3 Integration for S3 bucket security auditing
 - [ ] Real-time cloud resource monitoring
 - [ ] Automated compliance scanning
 - [ ] Multi-cloud support (AWS, Azure, GCP)
 
-### 🐳 Phase 4: Containerization & Deployment
+###  Phase 4: Containerization & Deployment
 - [ ] Docker containerization
 - [ ] Docker Compose for local development
 - [ ] Kubernetes deployment configurations
 - [ ] CI/CD pipeline (GitHub Actions)
 
-### 🔧 Phase 5: Developer Experience
+###  Phase 5: Developer Experience
 - [ ] Nix-based reproducible development environments (inspired by MixRank)
 - [ ] Development environment automation
 - [ ] One-command setup for new developers
 - [ ] Deterministic builds across platforms
 
-### 🚀 Phase 6: Production Hardening
+###  Phase 6: Production Hardening
 - [ ] Rate limiting and DDoS protection
 - [ ] Audit logging and SIEM integration
 - [ ] Automated security scanning
 - [ ] High-availability configuration
 - [ ] Production deployment guide
 
-### 📊 Phase 7: Monitoring & Analytics
+###  Phase 7: Monitoring & Analytics
 - [ ] Prometheus metrics integration
 - [ ] Grafana dashboards
 - [ ] Alert system for security events
@@ -318,8 +318,7 @@ MIT License - Use at your own risk. This is infrastructure code; security is you
 
 **Built by emzzze for AlphaGuardIT**  
 Architect of the Mainframe | Cyber-Technical Infrastructure  
-Montreal → Washington
-
+Montreal,QC. && Longview,WA. 
 ---
 
 ## Acknowledgments
