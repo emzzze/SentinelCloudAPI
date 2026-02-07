@@ -11,6 +11,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from Security_Vault import SecurityVault
 from shadow_gate import ShadowGate
+from aws_sentinel import AWSSentinel
 
 app = FastAPI(title="SentinelCloud API", version="2.0.0")
 security = HTTPBearer()
@@ -26,6 +27,13 @@ except ValueError as e:
     print(f"INITIALIZATION ERROR: {e}")
     vault = None
     gate = None
+
+# Initialize AWS Sentinel
+try:
+    aws_sentinel = AWSSentinel()
+except ValueError as e:
+    print(f"AWS SENTINEL ERROR: {e}")
+    aws_sentinel = None
 
 
 # ============================================================================
@@ -251,7 +259,7 @@ async def vault_status():
 @app.post("/vault/encrypt", response_model=EncryptResponse)
 async def encrypt_secret(
     request: SecretRequest,
-    user: dict = Depends(verify_token)  # 🔒 PROTECTED
+    user: dict = Depends(verify_token)  #PROTECTED
 ):
     """Encrypt a secret string. Requires valid JWT token."""
     if not vault:
@@ -269,7 +277,7 @@ async def encrypt_secret(
 @app.post("/vault/decrypt", response_model=DecryptResponse)
 async def decrypt_secret(
     request: SecretRequest,
-    user: dict = Depends(verify_token)  # 🔒 PROTECTED
+    user: dict = Depends(verify_token)  #PROTECTED
 ):
     """Decrypt an encrypted string. Requires valid JWT token."""
     if not vault:
@@ -283,3 +291,60 @@ async def decrypt_secret(
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Decryption failed: {str(e)}")
+
+# ============================================================================
+# AWS SECURITY ROUTES (PROTECTED)
+# ============================================================================
+
+@app.get("/aws/buckets")
+async def list_s3_buckets(user: dict = Depends(verify_token)):
+    """List all S3 buckets. Requires authentication."""
+    if not aws_sentinel:
+        raise HTTPException(status_code=503, detail="AWS Sentinel not initialized")
+    
+    try:
+        buckets = aws_sentinel.list_buckets()
+        return {
+            "count": len(buckets),
+            "buckets": buckets,
+            "timestamp": datetime.datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"AWS error: {str(e)}")
+
+
+@app.get("/aws/audit/{bucket_name}")
+async def audit_bucket(bucket_name: str, user: dict = Depends(verify_token)):
+    """Perform security audit on specific S3 bucket."""
+    if not aws_sentinel:
+        raise HTTPException(status_code=503, detail="AWS Sentinel not initialized")
+    
+    try:
+        audit = aws_sentinel.full_security_audit(bucket_name)
+        return audit
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Audit failed: {str(e)}")
+
+
+@app.get("/aws/audit-all")
+async def audit_all_buckets(user: dict = Depends(verify_token)):
+    """Perform security audit on ALL S3 buckets. Requires authentication."""
+    if not aws_sentinel:
+        raise HTTPException(status_code=503, detail="AWS Sentinel not initialized")
+    
+    try:
+        results = aws_sentinel.audit_all_buckets()
+        
+        # Summary statistics
+        critical = sum(1 for r in results if r.get('public_access', {}).get('status') == 'CRITICAL')
+        warnings = sum(1 for r in results if r.get('public_access', {}).get('status') == 'WARNING')
+        
+        return {
+            "total_buckets": len(results),
+            "critical_issues": critical,
+            "warnings": warnings,
+            "audits": results,
+            "timestamp": datetime.datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Audit failed: {str(e)}")

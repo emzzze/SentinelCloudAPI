@@ -1,6 +1,24 @@
-venv/
-__pycache__/
-*.pyc
+# --- Security & Secrets ---
 .env
+*.pem
+*.key
+secrets.json
+shadow_gate.key
+master.key
+# Ignore the hidden AWS config folder
+.aws/
+
+# --- Python Environment ---
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Deployment & OS ---
 .DS_Store
-*.save
+.vscode/
+.idea/
+*.log
+docker-compose.override.yml
