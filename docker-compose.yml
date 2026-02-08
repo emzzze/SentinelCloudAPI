@@ -18,6 +18,7 @@ services:
     # Persistent storage for user data
     volumes:
       - ./users.json:/app/users.json:rw
+      - ./logs:/app/logs:rw
     
     # Security: Run as non-root, read-only filesystem (except volumes)
     read_only: true

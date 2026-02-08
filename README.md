@@ -121,6 +121,54 @@ JWT_SECRET_KEY=your_generated_jwt_key_here
 
 ## Running the API
 ```bash
+## Docker Deployment (Production)
+
+### Quick Start
+```bash
+# Build the image
+docker compose build
+
+# Start the container
+docker compose up -d
+
+# View logs
+docker compose logs -f
+
+# Stop
+docker compose down
+```
+
+### Access the API
+- **API:** http://localhost:8000
+- **Docs:** http://localhost:8000/docs
+- **Health:** http://localhost:8000/
+
+### Environment Setup
+Ensure `.env` file exists with:
+```
+SENTINEL_MASTER_KEY=your_key
+JWT_SECRET_KEY=your_key
+AWS_ACCESS_KEY_ID=your_key
+AWS_SECRET_ACCESS_KEY=your_key
+AWS_REGION=us-east-1
+```
+
+### Production Commands
+```bash
+# Rebuild and restart
+docker compose up -d --build
+
+# Execute commands in container
+docker compose exec sentinel-api bash
+
+# View resource usage
+docker stats sentinel-cloud-api
+
+# Clean up
+docker compose down -v
+```
+
+
 # Activate virtual environment
 source venv/bin/activate
 
@@ -226,20 +274,20 @@ SentinelCloudAPI/
 
 ## Development Roadmap
 
-### ✅ Phase 1: Core Security Infrastructure (Complete)
+###  Phase 1: Core Security Infrastructure (Complete)
 - [x] Sentinel-Vault (AES-256 Encryption Module)
 - [x] Shadow-Gate (JWT Authentication Module)
 - [x] Basic API Infrastructure with FastAPI
 - [x] Environment-based Secret Management
 
-### ✅ Phase 2: Authentication & Access Control 
+###  Phase 2: Authentication & Access Control 
 - [x] User Registration & Login Endpoints
 - [x] User Storage (JSON → SQLite → PostgreSQL migration path)
 - [x] JWT Route Protection Middleware
 - [x] Role-Based Access Control (RBAC)
 - [x] API Key Management System
 
-### ✅ Phase 3: Cloud Integration (In Progress)
+###  Phase 3: Cloud Integration (In Progress)
 - [x] AWS Boto3 Integration for S3 bucket security auditing
 - [x] Real-time cloud resource monitoring
 - [ ] Automated compliance scanning
@@ -289,12 +337,12 @@ Visit http://localhost:8000/docs for Swagger UI testing interface.
 
 ## Security Best Practices
 
-✅ **Never commit `.env` files**  
-✅ **Rotate keys periodically**  
-✅ **Use HTTPS in production**  
-✅ **Implement rate limiting on auth endpoints**  
-✅ **Monitor for suspicious activity**  
-✅ **Keep dependencies updated**  
+ **Never commit `.env` files**  
+ **Rotate keys periodically**  
+ **Use HTTPS in production**  
+ **Implement rate limiting on auth endpoints**  
+ **Monitor for suspicious activity**  
+ **Keep dependencies updated**  
 
 ---
 
