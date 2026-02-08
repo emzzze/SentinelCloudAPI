@@ -2,16 +2,64 @@ version: '3.8'
 
 services:
   sentinel-api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sentinel-api:latest
+    container_name: sentinel-cloud-api
+    
     ports:
       - "8000:8000"
+    
+    # Environment variables (loaded from .env file)
     env_file:
       - .env
+    
+    # Persistent storage for user data
     volumes:
-      - ./users.json:/app/users.json
+      - ./users.json:/app/users.json:rw
+    
+    # Security: Run as non-root, read-only filesystem (except volumes)
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    
+    # Restart policy
     restart: unless-stopped
+    
+    # Health check
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 40s
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Network
+    networks:
+      - sentinel-network
+
+networks:
+  sentinel-network:
+    driver: bridge

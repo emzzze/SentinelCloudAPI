@@ -1,11 +1,46 @@
 nano .dockerignore
 ```
 ```
-venv/
-__pycache__/
-*.pyc
+# Git
 .git/
 .gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+ENV/
+
+# Security - NEVER include these
 .env
+*.key
+*.pem
 users.json
+github_key_expMarch30.txt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation
 *.md
+docs/
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Logs
+*.log

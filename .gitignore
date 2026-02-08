@@ -22,3 +22,13 @@ __pycache__/
 .idea/
 *.log
 docker-compose.override.yml
+
+# ---- Docker ----
+*.log
+docker-compose.override.yml
+.docker/
+
+# ---- Build artifacts ----
+build/
+dist/
+*.egg-info/
