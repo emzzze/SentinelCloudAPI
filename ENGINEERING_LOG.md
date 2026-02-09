@@ -50,3 +50,42 @@ Network Reset: Force-cleared the Windows HNS and restarted LxssManager to rebuil
 Port Re-mapping: Moved the public-facing API to Port 9000 to bypass the locked host socket.
 
 Hardening Validation: Successfully re-enabled read_only: true and cap_drop: ALL by implementing tmpfs mounts for system-level temporary files, ensuring the app remained functional under a "Zero Trust" filesystem policy.
+## SESSION: 2026-02-08 21:00
+Fuel: One Beer and some wings
+________________________________
+
+Title: The Architecture Pivot – From WSL Bridge Wars to the Intel Tax
+
+1. The Technical Hurdle: Networking Failure (OSI Layer 2)
+Context: While developing the Sentinel Security Vault on Windows, I encountered a critical failure in the WSL2 (Windows Subsystem for Linux) network stack.
+
+Symptom: Docker containers lost all external connectivity. A ping 8.8.8.8 failed, and the host was unable to resolve the virtual bridge to the containerized FastAPI backend.
+
+Forensics: The issue was identified at Layer 2 (Data Link) and Layer 3 (Network) of the OSI model. The virtual ethernet (veth) bridge between the Windows Host Network Service (HNS) and the WSL kernel failed to hand off traffic.
+
+Decision: Rather than spending hours "fighting the bridge," I made the architectural decision to pivot to a Unix-native environment (macOS) to ensure a more stable development-to-production parity.
+
+2. The Platform Constraint: OS Version Drift
+
+The Hardware: 2018 Intel Mac running macOS Monterey (12.7.4).
+
+The Problem: Modern Docker Desktop has dropped support for Monterey, requiring macOS Sonoma or later. Attempting a standard install resulted in an "Incompatible Software" error (the dreaded "X" icon).
+
+The Pivot: Switched from the heavyweight Docker Desktop GUI to Colima—a lightweight, open-source container run-time.
+
+The "Intel Tax": Because Monterey binaries are no longer standard for many Homebrew "bottles," I had to compile the entire virtualization stack (QEMU, OpenSSL, CMake) from source. This pushed the CPU to 100% capacity but ensured a "clean" supply chain build.
+
+3. Security & Audit: The "History Scrub"
+
+Incident: Identified a hashed credential file (users.json) that had been committed to the local Git history.
+
+Remediation Plan: Instead of a simple git rm, I am implementing a full history purge using git-filter-repo.
+
+Learning: This reinforces the "Zero Trust" model—never trust your own history if it was once unencrypted.
+
+4. Current Status
+
+Infrastructure: Colima installation in progress (Compiling QEMU).
+
+Next Milestone: Finalizing the "Hardened" Dockerfile (non-root users, multi-stage builds) and performing a fresh Git push from the new Mac environment.
+
